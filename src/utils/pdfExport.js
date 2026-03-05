@@ -1,28 +1,33 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
-export const exportToPDF = (history, products, ownerName = "Mohammed AABBOUR") => {
+export const exportToPDF = (history, products, ownerName = "Abdelaziz AABBOUR") => {
     const doc = jsPDF();
     const dateStr = new Date().toLocaleDateString('fr-FR');
     const timeStr = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 
     // Add Logo/Header
-    doc.setFontSize(22);
-    doc.setTextColor(15, 23, 42); // slate-900
+    doc.setFontSize(24);
+    doc.setTextColor(0, 0, 0); // Black for 2026 theme
     doc.setFont("helvetica", "bold");
-    doc.text("GSSTOKE - RAPPORT D'INVENTAIRE", 14, 22);
+    doc.text("NEXUS COGNITIVE LOGISTICS", 14, 22);
 
     // Add Meta Info
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(99, 102, 241); // indigo-500
+    doc.text("RAPPORT D'INVENTAIRE SYSTÈME V4.2", 14, 28);
+
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(100, 116, 139); // slate-500
-    doc.text(`Gérant: ${ownerName}`, 14, 32);
-    doc.text(`Date du rapport: ${dateStr} à ${timeStr}`, 14, 37);
-    doc.text("Lieu: Casablanca, Maroc", 14, 42);
+    doc.text(`Superviseur: ${ownerName}`, 14, 38);
+    doc.text(`Timestamp: ${dateStr} @ ${timeStr}`, 14, 43);
+    doc.text("Réseau: Cloud Interface Nexus", 14, 48);
 
     // Divider
-    doc.setDrawColor(226, 232, 240); // slate-200
-    doc.line(14, 48, 196, 48);
+    doc.setDrawColor(241, 245, 249); // slate-100
+    doc.line(14, 54, 196, 54);
 
     // Summary Stats
     const totalProducts = products.length;
@@ -75,19 +80,20 @@ export const exportToPDF = (history, products, ownerName = "Mohammed AABBOUR") =
             h.name,
             h.reference,
             h.type === 'in' ? '+ ENTRÉE' : '- SORTIE',
+            h.location || 'N/A',
             h.amount
         ]);
 
         autoTable(doc, {
             startY: 36,
-            head: [['Date & Heure', 'Produit', 'Référence', 'Action', 'Quantité']],
+            head: [['Date & Heure', 'Produit', 'Référence', 'Action', 'Localisation', 'Quantité']],
             body: historyRows,
             theme: 'grid',
             headStyles: { fillColor: [14, 148, 233], textColor: 255 }, // primary-500
             styles: { fontSize: 8 },
             columnStyles: {
                 3: { fontStyle: 'bold' },
-                4: { halign: 'right', fontStyle: 'bold' }
+                5: { halign: 'right', fontStyle: 'bold' }
             },
             didParseCell: (data) => {
                 if (data.section === 'body' && data.column.index === 3) {

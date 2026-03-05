@@ -47,7 +47,7 @@ export const useStock = () => {
         setProducts([...products, { ...product, quantity: parseInt(product.quantity) || 0 }]);
     };
 
-    const updateStock = (reference, amount, type) => {
+    const updateStock = (reference, amount, type, location) => {
         setProducts(prev => prev.map(p => {
             if (p.reference === reference) {
                 const newQty = type === 'in' ? p.quantity + amount : p.quantity - amount;
@@ -60,6 +60,7 @@ export const useStock = () => {
                     name: p.name,
                     amount,
                     type,
+                    location: location || 'Non spécifié',
                     date: new Date().toISOString()
                 }, ...h]);
 
