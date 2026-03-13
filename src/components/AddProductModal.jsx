@@ -95,7 +95,10 @@ const AddProductModal = ({ isOpen, onClose, onAdd }) => {
 
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 ml-1">
-                                        Identifiant Visuel (URL)
+                                        Identifiant Visuel (URL1)
+                                    </label>
+                                    <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 ml-1">
+                                        Identifiant Visuel (URL2)
                                     </label>
                                     <div className="relative">
                                         <input
